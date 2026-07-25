@@ -1,6 +1,7 @@
 import { parseHtml } from './parser.js';
 
 describe('parseHtml', () => {
+  // Happy path
   it('should parse valid HTML correctly (happy path)', () => {
     const html = `
       <html>
@@ -25,10 +26,10 @@ describe('parseHtml', () => {
     expect(result.metaDescription).toBe('This is a test description');
     expect(result.h1Count).toBe(2);
     expect(result.imagesMissingAlt).toBe(2);
-    // Heading 1 Heading 2 This is some test text to count words. = 12 words
     expect(result.wordCount).toBe(12);
   });
 
+  // Graceful handling of missing HTML tags
   it('should handle missing elements gracefully', () => {
     const html = `
       <html>
@@ -47,7 +48,18 @@ describe('parseHtml', () => {
     expect(result.wordCount).toBe(4);
   });
 
-  it('should throw error on empty HTML', () => {
-    expect(() => parseHtml('')).toThrow('No HTML provided');
+  // Failure case 1: Empty or null/undefined HTML input
+  it('should throw error when html is empty or undefined (failure case 1)', () => {
+    expect(() => parseHtml('')).toThrow('No valid HTML string provided');
+    expect(() => parseHtml(null)).toThrow('No valid HTML string provided');
+    expect(() => parseHtml(undefined)).toThrow('No valid HTML string provided');
+  });
+
+  // Failure case 2: Non-string input
+  it('should throw error when html is not a string (failure case 2)', () => {
+    expect(() => parseHtml(12345)).toThrow('No valid HTML string provided');
+    expect(() => parseHtml({ key: 'value' })).toThrow('No valid HTML string provided');
+    expect(() => parseHtml(true)).toThrow('No valid HTML string provided');
   });
 });
+

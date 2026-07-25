@@ -1,8 +1,8 @@
 import * as cheerio from 'cheerio';
 
 export function parseHtml(html) {
-  if (!html) {
-    throw new Error('No HTML provided');
+  if (!html || typeof html !== 'string') {
+    throw new Error('No valid HTML string provided');
   }
 
   const $ = cheerio.load(html);
