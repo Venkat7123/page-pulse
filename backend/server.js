@@ -14,10 +14,11 @@ const httpsAgent = new https.Agent({ maxHeaderSize: 65536 });
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const frontendUrl = process.env.VITE_FRONTEND_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
+const frontendUrlRaw = process.env.VITE_FRONTEND_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
+const frontendUrl = frontendUrlRaw.replace(/\/$/, '');
 
 app.use(cors({ 
-  origin: [frontendUrl, 'http://localhost:5173', 'http://127.0.0.1:5173'] 
+  origin: [frontendUrl, 'http://localhost:5173', 'http://127.0.0.1:5173', 'https://page-pulse-six-sigma.vercel.app'] 
 }));
 app.use(express.json());
 app.disable("x-powered-by");
