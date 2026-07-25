@@ -16,8 +16,8 @@ function App() {
     setReport(null);
 
     try {
-      // Assuming backend runs on 3001
-      const response = await fetch('http://localhost:3001/api/audit', {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+      const response = await fetch(`${backendUrl}/api/audit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url }),
